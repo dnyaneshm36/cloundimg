@@ -19,7 +19,7 @@ def Profile(request):
 
 
 def Privacypolicy(request):
-    return render(request, "privacy.html")
+    return render(request, "privacypolicy.html")
 
 from django.utils.decorators import method_decorator
 
