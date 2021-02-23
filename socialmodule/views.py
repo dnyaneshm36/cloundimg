@@ -17,16 +17,28 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 def Profile(request):
     return render(request, "profile.html")
 
+
+def Privacypolicy(request):
+    return render(request, "privacypolicy.html")
+
 from django.utils.decorators import method_decorator
 
 import base64
 import hashlib
 import hmac
+from django.http import HttpResponse
+import json
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 @method_decorator(csrf_exempt, name='dispatch')
 class DataDeletionView(View):
-    
+    def get(self,requeest,*args, **kwargs):
+        data = {
+            'facebook' : "deactivate",
+            'for delete': "delection"
+        }
+        data = json.dumps(data)
+        return HttpResponse(data, content_type="application/json")
     def post(self, request, *args, **kwargs):
         try:
             signed_request = request.POST['signed_request']
