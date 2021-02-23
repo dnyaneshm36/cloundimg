@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath cloudimg cloudimg.wsgi --log-file -
+web: gunicorn --pythonpath contactsh contactsh.wsgi --log-file -
