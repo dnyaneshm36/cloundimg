@@ -4,5 +4,5 @@ CLOUDINARY_SECRET= SECRET_KEY
 CLOUDINARY_NAME= name of caoundary
 SECRET_KEY= secreate key
 DEBUG=False
-HOST_EMAIL='gamil@.cim'
+HOST_EMAIL='abc a gamil@.cim'
 HOST_EMAIL_PASSWORD='passwword'
