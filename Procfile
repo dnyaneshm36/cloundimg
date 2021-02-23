@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath cloudimg cloudimg.wsgi --log-file -

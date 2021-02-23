@@ -1,0 +1,108 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Simple House Template</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400' rel="stylesheet" />    
+	<link href="{% static 'css/templatemo-style.css' %} " rel="stylesheet" />
+
+</head>
+<body>
+    <dev >
+						
+        <form action="" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_p }}
+            </table>
+            <input type="submit" value="Upload">
+        </form>
+
+
+    </dev>
+  
+  
+    <div class="container">
+        <!-- Top box -->
+            <!-- Logo & Site Name -->
+
+    
+            <main>
+                <header class="row tm-welcome-section">
+                    <h2 class="col-12 text-center tm-section-title">Welcome to Our House</h2>
+                    <p class="col-12 text-center"> adddd some thing about house</p>
+                </header>
+                
+    
+    
+                <!-- Gallery -->
+                <div class="row tm-gallery">
+                    <!-- gallery page 1 -->
+                    <div id="tm-gallery-page-pizza" class="tm-gallery-page">
+                        
+                        
+                        {% for tree in trees %}
+                            <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <figure>
+                                    <img src=" {{  tree.image.url }} " alt="Image" class="img-fluid tm-gallery-img" />
+                                    <figcaption>
+                                        <h4 class="tm-gallery-title">{{tree.name}}</h4>
+                                        <p class="tm-gallery-description">{{tree.desc}}</p>
+                                        <!-- <p class="tm-gallery-price"></p> -->
+                                    </figcaption>
+                                </figure>
+                            </article>
+                        {% endfor %}
+                        
+                        <figure class="tm-description-figure">
+                                <img src="{% static "img/img-01.jpg" %}" alt="Image" class="img-fluid" />
+                            </figure>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="tm-description-box"> 
+                                <h4 class="tm-gallery-title">Maecenas nulla neque</h4>
+                                <p class="tm-mb-45">Redistributing this template as a downloadable ZIP file on any template collection site is strictly prohibited. You will need to <a rel="nofollow" href="https://templatemo.com/contact">talk to us</a> for additional permissions about our templates. Thank you.</p>
+                                <a href="{% url 'about' %}" class="tm-btn tm-btn-default tm-right">Read More</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </main>
+    
+            <footer class="tm-footer text-center">
+                <p>Copyright &copy; dnyaneshwar
+                
+                | Designer:  <a rel="nofollow" href="http://dnyanesh-website-testing-2.herokuapp.com/about"> Dnyaneshwar Mogal </a></p>
+            </footer>
+                    </div> <!-- gallery page 1 -->
+                    
+                </div>
+                <div class="tm-section tm-container-inner">
+                    <div class="row">
+                        <div class="col-md-6">
+                        
+        </div>
+        <script src="{% static  "js/jquery.min.js"  %}" ></script>
+        <script src="{% static  "js/parallax.min.js"  %}"></script>
+        <script>
+            $(document).ready(function(){
+                // Handle click on paging links
+                $('.tm-paging-link').click(function(e){
+                    e.preventDefault();
+                    
+                    var page = $(this).text().toLowerCase();
+                    $('.tm-gallery-page').addClass('hidden');
+                    $('#tm-gallery-page-' + page).removeClass('hidden');
+                    $('.tm-paging-link').removeClass('active');
+                    $(this).addClass("active");
+                });
+            });
+        </script>
+</body>

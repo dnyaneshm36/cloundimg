@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load account %}
+
+{% user_display user %}
+
+{% block content %}
+    <!-- Begin Page Content -->
+  
+    {% if user.is_authenticated %}
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+            <h1 class="h3 mb-0 text-gray-800">Profile</h1>
+            </div>          
+    
+
+            {% for account in user.socialaccount_set.all %}
+            <!-- Main Content Here -->
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-3 my-5">
+                <img src="{{ account.get_avatar_url }}" class="rounded float-right" height="200px" width="200px">
+              </div>
+
+            
+
+              <div class="card o-hidden border-0 shadow-lg my-5 col-lg-5">
+                <div class="card-body">
+                    <h2>{{ account.extra_data.name }}</h2>
+                    <p><strong>First Name: </strong> {{user.first_name}}</p>
+                    <p><strong>Last Name: </strong> {{user.last_name}} </p>
+                    <p><strong>username: </strong> {{user.username}} </p>
+                    <p><strong>Email: </strong> {{user.email}} </p>
+                   
+                    <p><strong>Last Login: </strong> {{user.last_login}} </p>
+                    <p><strong>Id: </strong> {{ account.extra_data.id }} </p>
+                  
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+      <h1 class="h3 mb-0 text-gray-800">Login first. !</h1>
+      </div>          
+
+
+  </div>
+    {% endif %}
+    <!-- /.container-fluid -->
+{% endblock content %}
+
+

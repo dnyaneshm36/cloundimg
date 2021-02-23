@@ -1,0 +1,8 @@
+DATABASE_URL= database url
+CLOUDINARY_API_KEY= the 
+CLOUDINARY_SECRET= SECRET_KEY
+CLOUDINARY_NAME= name of caoundary
+SECRET_KEY= secreate key
+DEBUG=False
+HOST_EMAIL='gamil@.cim'
+HOST_EMAIL_PASSWORD='passwword'
