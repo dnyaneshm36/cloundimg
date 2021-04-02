@@ -26,7 +26,7 @@ SECRET_KEY = '-+uvvqkotv+r0td-jwf)2!8^78v9&m+^r02wda@u(j4f5!$9a_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+# APPEND_SLASH = False
 ALLOWED_HOSTS = ['localhost','127.0.0.1','*']
 
 # Application definition
@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.google',
 
     'rest_framework',
+    
 ]
 
 
@@ -56,6 +57,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'socialmodule',
     'ourhouse',
+    'thesis',   # form another project
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -141,6 +143,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+from contactsh.restconfig.main import *
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
