@@ -22,10 +22,12 @@ import dj_database_url
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-+uvvqkotv+r0td-jwf)2!8^78v9&m+^r02wda@u(j4f5!$9a_'
+SECRET_KEY = os.getenv('SECRET_KEY', 'ABAC@GAIL.COM')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
+# os.getenv('DEBUG', False)
+# print(DEBUG)
 # APPEND_SLASH = False
 ALLOWED_HOSTS = ['localhost','127.0.0.1','*']
 
