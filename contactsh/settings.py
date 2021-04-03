@@ -60,6 +60,7 @@ LOCAL_APPS = [
     'socialmodule',
     'ourhouse',
     'thesis',   # form another project
+    'cripto',   # used for pbc.
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
