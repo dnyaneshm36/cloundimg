@@ -9,6 +9,7 @@ urlpatterns = [
      path("senderkeyrud/<int:pk>", views.SenderDetailAPIView.as_view(),name="senderkeyretrive"),
      path("receiverkeylc", views.ReceiverAPIView.as_view(),name="senderkeycreate"),
      path("receiverkeyrud/<int:pk>", views.ReceiverDetailAPIView.as_view(),name="senderkeyretrive"),
+     # path('upload/', views.upload_file , name='upload'),
      # url(r'^senderkeyrud/(?P<pk>\d+)/$',SenderDetailAPIView.as_view(),name="senderkeyretrive" ),
 ]
 
