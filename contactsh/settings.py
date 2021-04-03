@@ -49,7 +49,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.google',
 
     'rest_framework',
-
+        'storages',
     'drf_yasg',
     
 ]
@@ -154,29 +154,41 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_NAME', 'CLOUDINARY_name'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY', 'CLOUDINARY_API_key'),
-    'API_SECRET': os.getenv('CLOUDINARY_SECRET', 'CLOUDINARY_SECret--'),
-     'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'my-manifest-directory'),
-      'SECURE': True,
-      'MEDIA_TAG': 'media',
-    'INVALID_VIDEO_ERROR_MESSAGE': 'Please upload a valid video file.',
-    'EXCLUDE_DELETE_ORPHANED_MEDIA_PATHS': (),
-    'STATIC_TAG': 'static',
-    'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'my-manifest-directory'),
-    'STATIC_IMAGES_EXTENSIONS': ['jpg', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr',
-                                 'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
-    'STATIC_VIDEOS_EXTENSIONS': ['mp4', 'webm', 'flv', 'mov', 'ogv' ,'3gp' ,'3g2' ,'wmv' ,
-                                 'mpeg' ,'flv' ,'mkv' ,'avi'],
-    'MAGIC_FILE_PATH': 'magic',
+DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
+STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
+
+
+STATIC_LOCATION = "static"
+MEDIA_LOCATION = "media"
+
+AZURE_ACCOUNT_NAME = "encriptedfiles"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': os.getenv('CLOUDINARY_NAME', 'CLOUDINARY_name'),
+#     'API_KEY': os.getenv('CLOUDINARY_API_KEY', 'CLOUDINARY_API_key'),
+#     'API_SECRET': os.getenv('CLOUDINARY_SECRET', 'CLOUDINARY_SECret--'),
+#      'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'my-manifest-directory'),
+#       'SECURE': True,
+#       'MEDIA_TAG': 'media',
+#     'INVALID_VIDEO_ERROR_MESSAGE': 'Please upload a valid video file.',
+#     'EXCLUDE_DELETE_ORPHANED_MEDIA_PATHS': (),
+#     'STATIC_TAG': 'static',
+#     'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'my-manifest-directory'),
+#     'STATIC_IMAGES_EXTENSIONS': ['jpg', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr',
+#                                  'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
+#     'STATIC_VIDEOS_EXTENSIONS': ['mp4', 'webm', 'flv', 'mov', 'ogv' ,'3gp' ,'3g2' ,'wmv' ,
+#                                  'mpeg' ,'flv' ,'mkv' ,'avi'],
+#     'MAGIC_FILE_PATH': 'magic',
    
-}
+# }
 
 
 SITE_ID = 1
