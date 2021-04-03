@@ -24,7 +24,7 @@ urlpatterns = [
     path('',include('socialmodule.urls')),
     path('home/', include('ourhouse.urls')),
     path('thesis/', include('thesis.urls')),
-
+    path('clpeks/', include('cripto.urls')),
 
 ]
 from django.conf import settings
