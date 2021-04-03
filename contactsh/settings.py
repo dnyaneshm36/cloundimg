@@ -49,6 +49,8 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.google',
 
     'rest_framework',
+
+    'drf_yasg',
     
 ]
 
