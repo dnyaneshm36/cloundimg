@@ -4,8 +4,8 @@ from django.conf import settings
 
 from allauth.socialaccount.models import SocialAccount
 # Create your models here.
-from cloudinary.models import CloudinaryField
-from cloudinary_storage.storage import RawMediaCloudinaryStorage
+# from cloudinary.models import CloudinaryField
+# from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 # the uid given by the social account like google is smaller than Q so
 # we can use it as client secrete .
@@ -27,5 +27,5 @@ class Receiverkey(models.Model):
 
 class Uploaddata(models.Model):
     filename     =                       models.CharField(max_length=100)
-    datafile     =                       models.FileField(null = True)
+    datafile     =                       models.FileField(null = True,upload_to='files/')
     words        =                       models.CharField(max_length=1000)
