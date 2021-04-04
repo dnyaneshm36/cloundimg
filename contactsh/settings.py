@@ -25,7 +25,7 @@ import dj_database_url
 SECRET_KEY = os.getenv('SECRET_KEY', 'ABAC@GAIL.COM')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = True 
 # os.getenv('DEBUG', False)
 # print(DEBUG)
 # APPEND_SLASH = False
@@ -50,7 +50,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
 
-    'rest_framework',
+     'rest_framework',
         'storages',
     'drf_yasg',
     
