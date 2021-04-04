@@ -85,7 +85,7 @@ import requests
 
 def keygen(request,*args,**kwargs):
     user = request.user
-    if user == None:
+    if user is None:
         messages.error(request, ('Login First.'))
         return redirect("/")
     qs = Key.objects.all()
@@ -186,7 +186,7 @@ from django.contrib import messages
 def Keydisplay(request):
     form = UploaddataForm(request.POST, request.FILES)
     User = request.user.id
-    if User == None:
+    if User is None:
         messages.error(request, ('Login First.'))
         return redirect("/")
     userkeys = Key.objects.filter(userid_id__exact=User)
@@ -195,7 +195,7 @@ def Keydisplay(request):
         render(request, 'keys.html', {'form': form})
     else:
         r = keygen(request)
-        if(r.status_code==201):
+        if(r.status_code is 201):
             userkeys = Key.objects.filter(userid_id__exact=User)[0]
             form = keysForm(instance=userkeys)
     return render(request, 'keys.html', {'form': form})
