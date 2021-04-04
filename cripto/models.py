@@ -1,12 +1,8 @@
 from django.db import models
-
-
-from allauth.socialaccount.models import SocialAccount
-
+from django.conf import settings
 # Create your models here.
-
 class Key(models.Model):
-    socialaccount =                      models.ForeignKey(SocialAccount,on_delete=models.CASCADE)
+    userid        =                             models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     clientId      =                      models.CharField(max_length=50,default=None)
     qu            =                      models.CharField(max_length=300)
     du            =                      models.CharField(max_length=300)
@@ -15,3 +11,8 @@ class Key(models.Model):
     sku2          =                      models.CharField(max_length=300)
     pku1          =                      models.CharField(max_length=300)
     pku2          =                      models.CharField(max_length=300) 
+
+class Uploadfile(models.Model):
+    userid          =                     models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    datafile      =                       models.FileField(null = True,upload_to='cripto/')
+    words         =                       models.CharField(max_length=1000)
