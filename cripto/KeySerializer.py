@@ -7,7 +7,7 @@ class KeySerializer(serializers.ModelSerializer):
         model = Key
         fields = [
             'id',
-            'socialaccount',
+            'userid',
             'clientId',
             'qu',
             'du',
