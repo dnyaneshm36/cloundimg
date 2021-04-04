@@ -86,16 +86,13 @@ import requests
 def keygen(request,*args,**kwargs):
     user = request.user
     if user == None:
+        messages.error(request, ('Login First.'))
         return redirect("/")
     qs = Key.objects.all()
     qs = qs.filter(userid__exact = user)
     if len(qs)>0:
-        data = {
-            'keygenerations': False,
-        'Status ': "your keys are already generated ."
-        }
-        data = json.dumps(data)
-        return HttpResponse(data, content_type="application/json")
+        messages.warning(request, ('Key are aleardy Genrated.'))
+        return redirect("/clpeks/keyshow")
     else:
 
         LOCALHOST = "http://localhost:8080/"
@@ -185,10 +182,12 @@ def keygen(request,*args,**kwargs):
     return HttpResponse(data, content_type="application/json")    
 from .form import keysForm
 from .models import Key
+from django.contrib import messages
 def Keydisplay(request):
     form = UploaddataForm(request.POST, request.FILES)
     User = request.user.id
     if User == None:
+        messages.error(request, ('Login First.'))
         return redirect("/")
     userkeys = Key.objects.filter(userid_id__exact=User)
     if len(userkeys)>0:
