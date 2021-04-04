@@ -123,42 +123,20 @@ import cloudinary
 import os
 from cloudinary import uploader
 
-# def upload_file(request):
-#     form = UploadImageForm(request.POST, request.FILES)
-#     if form.is_valid():
-#         print(form," -------- \n")
 
-#         datafile=request.FILES['datafile']
-#         # f=open(datafile)
-#         # text = datafile.read()
-#         print(((str(datafile.read()))) )
-#         print(type(datafile),"----------tesxt -- ")
-#         print(datafile," ------datafile-- \n")
-#         print(cloudinary.utils.cloudinary_url(datafile, resource_type = "raw"),"--------sf-sfsf- ")
+
+from .form import UploaddataForm
+from django.shortcuts import render, redirect
+from thesis.form import UploaddataForm
+
+def upload_file(request):
+    form = UploaddataForm(request.POST, request.FILES)
+    if form.is_valid():
+        uploaded_img = form.save(commit=False)
+        uploaded_img.data = form.cleaned_data['datafile'].file.read()
         
-#         fs = FileSystemStorage()
-#         # filename = fs.save(datafile.name, datafile)
-#         # uploaded_file_url = fs.url(filename)
-#         return render(request, 'core/simple_upload.html', {
-#             'uploaded_file_url': uploaded_file_url
-#         })
-#         return redirect('/')
-#     else:
-#         form = UploadImageForm()
-#     return render(request, 'uploadfile.html', {'form': form})
-
-
-# from .form import Uploaddata
-# from django.shortcuts import render, redirect
-
-# def upload_file(request):
-#     form = Uploaddata(request.POST, request.FILES)
-#     if form.is_valid():
-#         uploaded_img = form.save(commit=False)
-#         uploaded_img.data = form.cleaned_data['file'].file.read()
-        
-#         uploaded_img.save()
-#         return redirect('/')
-#     else:
-#         form = UploadImageForm()
-#     return render(request, 'upload.html', {'form': form})
+        uploaded_img.save()
+        return redirect('/')
+    else:
+        form = UploaddataForm()
+    return render(request, 'uploadfile.html', {'form': form})
