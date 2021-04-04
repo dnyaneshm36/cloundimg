@@ -9,7 +9,7 @@ urlpatterns = [
      path("keyshow", views.Keydisplay,name="keyshow"),
      path("keys/<int:pk>", views.KeysDetailAPIView.as_view(),name="keysedit"),
      path('upload/', views.upload_file , name='upload'),
-     path('play/', views.CreateAPIViewkeys.as_view() , name='play'),
+     # path('play/', views.CreateAPIViewkeys.as_view() , name='play'),
      
 ]
 
