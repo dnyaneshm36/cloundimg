@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class CriptoConfig(AppConfig):
+class CriptograpyConfig(AppConfig):
     name = 'cripto'
