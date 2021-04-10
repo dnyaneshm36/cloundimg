@@ -1,11 +1,10 @@
 from django import forms
 from .models import Uploadfile,Key
 
-class UploaddataForm(forms.ModelForm):
-    # datafile        = forms.FileField()
+class UploaddataForm(forms.ModelForm): 
     class Meta:
         model = Uploadfile
-        fields = ['datafile','words']
+        fields = ['datafile','cypherwords']
     # def clean_datafile(self, *args,**kwargs):
         
     #     datafile = self.cleaned_data.get("datafile")
@@ -16,9 +15,34 @@ class UploaddataForm(forms.ModelForm):
     #         raise forms.ValidationError(" Add text formate. ")
     #     return datafile
 
-
-class keysForm(forms.ModelForm):
-    # datafile        = forms.FileField()
+from django.forms import TextInput
+class keysFormid(forms.ModelForm):
+    pku1        = forms.CharField(required=False)
+    pku2         = forms.CharField(required=False)
     class Meta:
         model = Key
-        fields = ['clientId','su','sku1','qu','du','sku2','pku1','pku2']
+        fields = ['clientId','qu','du']
+        widgets = {
+            'clientId': TextInput(attrs={'placeholder': 'clientId'}),
+             'qu': TextInput(attrs={'placeholder': 'qu'}),
+              'du': TextInput(attrs={'placeholder': 'du'}),
+
+        }
+class KeyForm(forms.ModelForm):
+
+    class Meta:
+        model = Key
+        fields = ['clientId','qu','du','pku1','pku2']
+        widgets = {
+            'clientId': TextInput(attrs={'placeholder': 'clientId'}),
+             'qu': TextInput(attrs={'placeholder': 'qu'}),
+              'du': TextInput(attrs={'placeholder': 'du'}),
+
+        }
+
+class KeyFormpublic(forms.Form):
+    pku1        = forms.CharField(required=False)
+    pku2         = forms.CharField(required=False)
+    # class Meta:
+    #     model = Key
+    #     fields = ['pku1','pku2']
