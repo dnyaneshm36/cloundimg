@@ -26,7 +26,7 @@
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 200px;
+  min-width: 270px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
@@ -74,9 +74,18 @@
         <div class="dropdown-content">
           <ul >
             {% if user.is_authenticated %}
-            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+            <li><a href="{% url 'home' %}">🏠 Home 🏠</a></li>
+            <li><a href="{% url 'account_email' %}">📩 Change E-mail 📩</a></li>
+            <li><a href="{% url 'keyshow' %}">🌀 Keys 🌀</a></li>
+            <li><a href="{% url 'correct' %}">🧿 Correctness Public keys. 🧿</a></li>
+            
+            <li><a href="{% url 'upload' %}">📤 Upload 📤</a></li>
+            <li><a href="{% url 'search' %}">🔎 Search 🔍</a></li>
+
+
             <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
             {% else %}
+            <li><a href="{% url 'home' %}">🏠 Home 🏠</a></li>
             <li><a href="{% url 'account_login' %}">Sign In</a></li>
             <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
             {% endif %}
