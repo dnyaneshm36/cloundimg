@@ -8,11 +8,8 @@ class Keyadmin(admin.ModelAdmin):
             'id',
             'userid',
             'clientId',
-            'su',
-            'sku1',
             'qu',
             'du',
-            'sku2',
             'pku1',
             'pku2'
         ]
@@ -26,7 +23,7 @@ class Uploadfileadmin(admin.ModelAdmin):
             'id',
             'userid',
             'datafile',
-            'words',
+            'cypherwords',
         ]
     # class Meta:
     #     model = Myfrienddetail
