@@ -76,7 +76,7 @@ def upload_file(request):
         return redirect('/')
     else:
         form = UploaddataForm()
-    return render(request, 'up.html', {'form': form})
+    return render(request, 'upload.html', {'form': form})
 
 
 from django.http import HttpResponse
@@ -126,39 +126,12 @@ def keygen(request,*args,**kwargs):
         Responddata = r.json()
         # print(Responddata)
 
-        Su = Responddata["su"]
-
-        Requestdata={
-            "su":Su,
-            "du":Du
-        }   
-        r = requests.get(ENDPOINT+"microservice/clpeks/gPriK",data=json.dumps(Requestdata),headers= headers)
-        # print(r)
-        Responddata = r.json()
-        # print(Responddata)
-
-        SKu1 = Responddata["sku1"]
-        SKu2 = Responddata["sku2"]
-        Requestdata={
-            "su":Su
-        }
-        r = requests.get(ENDPOINT+"microservice/clpeks/gPubK",data=json.dumps(Requestdata),headers= headers)
-        # print(r)
-        Responddata = r.json()
-        # print(Responddata)
-
-        PKu1 = Responddata["pku1"]
-        PKu2 = Responddata["pku2"]
+        
         Requestdata={
                "userid": uid,
             "clientId":userid,
             "qu": Qu,
-            "du": Du,
-            "su": Su,
-            "sku1": SKu1,
-            "sku2": SKu2,
-            "pku1": PKu1,
-            "pku2": PKu2
+            "du": Du
             }
 
         # print(json.dumps(Requestdata))
@@ -173,29 +146,93 @@ def keygen(request,*args,**kwargs):
         # endpoint = str(host)+"/clpeks/play/"
         # r = requests.get(endpoint,data=json.dumps(Requestdata),headers= headers,params=request.GET)
         # r= str(r)
-        # data = {
-        #     "resopnce":r,
-        # 'generate': "already keys generated",
-        # 'key': True}
+        data = {
+            "resopnce":r,
+        'generate': "already keys generated",
+        'key': True}
     
 
     return HttpResponse(data, content_type="application/json")    
-from .form import keysForm
+
+from .form import keysFormid
 from .models import Key
 from django.contrib import messages
-def Keydisplay(request):
-    form = UploaddataForm(request.POST, request.FILES)
+from django.forms import modelform_factory
+
+def Keydisplay(request, *args, **kwargs):
+    form = keysFormid(request.POST )
     User = request.user.id
     if User is None:
         messages.error(request, ('Login First.'))
         return redirect("/")
     userkeys = Key.objects.filter(userid_id__exact=User)
     if len(userkeys)>0:
-        form = keysForm(instance=userkeys[0])
+        form = keysFormid(instance=userkeys[0])
+        formhtml = keysFormid(request.POST )
+        if formhtml.is_valid():
+            print(formhtml)
         render(request, 'keys.html', {'form': form})
     else:
         r = keygen(request)
-        if(r.status_code is 201):
+        if(r.status_code == 201):
             userkeys = Key.objects.filter(userid_id__exact=User)[0]
-            form = keysForm(instance=userkeys)
+            form = keysFormid(instance=userkeys)
     return render(request, 'keys.html', {'form': form})
+
+
+from .form import  KeyFormpublic,KeyForm
+    
+def uploadpublickey(request,*args,**kwargs):
+    form = KeyFormpublic(request.POST )
+    User = request.user.id
+    if User is None:
+        messages.error(request, ('Login First.'))
+        return redirect("/")
+    if form.is_valid():
+        userkeys = Key.objects.filter(userid_id__exact=User)[0]
+        if userkeys.pku1 == None:
+            userkeys.pku1 = form.cleaned_data["pku1"]
+            userkeys.pku2 = form.cleaned_data["pku2"]
+            userkeys.save()
+            messages.error(request, ('public are updated 👍 showing keys.'))
+        else:
+            messages.error(request, (' 🤟 public showing keys. 🤟'))
+
+        form = KeyForm(instance=userkeys)
+        return render(request, 'keys.html', {'form': form})
+    else: 
+        form = KeyFormpublic()
+    return render(request, 'keys.html', {'form': form})
+
+def checkcerrect(request,*args,**kwargs):
+    User = request.user.id
+    userkeys = Key.objects.filter(userid_id__exact=User)[0]
+    CYTOPTO_HEROKU = "https://criptography-dnyanesh.herokuapp.com/"
+
+    ENDPOINT = CYTOPTO_HEROKU
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    if userkeys.pku1 == None:
+        messages.error(request, (' update Public keys first. \n'))
+        form = KeyForm(instance=userkeys)
+        return render(request, 'keys.html', {'form': form})
+
+    Requestdata={
+        "pkr1":userkeys.pku1,
+        "pkr2":userkeys.pku2
+    } 
+    r = requests.get(ENDPOINT+"microservice/clpeks/pairingcheck",data=json.dumps(Requestdata),headers= headers)
+    print(r)
+    Responddata = r.json()
+    print(Responddata)
+    if Responddata['checked']:
+         messages.error(request, (' ✔ Public keys are correct. ✔ \n'+Responddata['description']))
+    else:
+        messages.error(request, (' ❌ public showing keys. ❌  \n' +Responddata['description']))
+    form = KeyForm(instance=userkeys)
+    return render(request, 'keys.html', {'form': form})
+
+def trapdoorTest(request,*args,**kwargs):
+    return render(request, 'search.html')
