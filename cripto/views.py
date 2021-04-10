@@ -76,7 +76,7 @@ def upload_file(request):
         return redirect('/')
     else:
         form = UploaddataForm()
-    return render(request, 'uploadfile.html', {'form': form})
+    return render(request, 'uploadfileword.html', {'form': form})
 
 
 from django.http import HttpResponse
