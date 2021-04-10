@@ -11,9 +11,6 @@ class KeySerializer(serializers.ModelSerializer):
             'clientId',
             'qu',
             'du',
-            'su',
-            'sku1',
-            'sku2',
             'pku1',
             'pku2'
         ]
