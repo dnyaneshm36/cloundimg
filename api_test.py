@@ -20,6 +20,17 @@ headers = {
 
 
 for i in range(1):
+    words = []
+    for j in range(10):
+        N =random.randint(0,19)
+        word = ''.join(random.choices(string.ascii_uppercase +
+                                string.digits, k = N))
+        words.append(word)
+    
+
+    print("words generated: \n",words)
+    wordchecking = words[1]
+    print("word Searching: \n",wordchecking)
     Requestdata = ""
     r = requests.get(ENDPOINT+"microservice/clpeks/setup",data=json.dumps(Requestdata),headers= headers)
     print(r)
@@ -53,14 +64,8 @@ for i in range(1):
 
     Qr = Responddata["qu"]
     Dr = Responddata["du"]
-
-
-    r = requests.get(ENDPOINT+"microservice/clpeks/sSV",data=json.dumps(Requestdata),headers= headers)
-    print(r)
-    Responddata = r.json()
-    print(Responddata)
-
-    Sr = Responddata["su"]
+    # Qr = Qs
+    # Dr = Qs
 
 
     r = requests.get(ENDPOINT+"microservice/clpeks/sSV",data=json.dumps(Requestdata),headers= headers)
@@ -69,6 +74,13 @@ for i in range(1):
     print(Responddata)
 
     Ss = Responddata["su"]
+    r = requests.get(ENDPOINT+"microservice/clpeks/sSV",data=json.dumps(Requestdata),headers= headers)
+    print(r)
+    Responddata = r.json()
+    print(Responddata)
+
+    Sr = Responddata["su"]
+    # Sr = Ss
 
     # Ss = "JjU1s7gpBDRNm3NBPwIhMsty1NQ="
     # Sr = "EnMlqn7XtZWhk+lyS37THfn4zbI="
@@ -152,17 +164,9 @@ for i in range(1):
         print("--------------------FAILED--------------------")
 
     # word = "wordto_encrption"
-    N =random.randint(0,19)
-    word1 = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = N))
-    N =random.randint(0,19)
-    word2 = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = N))
-    N =random.randint(0,19)
-    word3 = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = N))
     
-    words = [word1,word2,word3]
+    
+    
     print("word s --- ",words)
     Requestdata={
     "words": words,
@@ -183,7 +187,7 @@ for i in range(1):
     "pks1": PKs1
     }
 
-    wordchecking = word2
+    
 
     r = requests.get(ENDPOINT+"microservice/clpeks/trapdoor/"+wordchecking,data=json.dumps(Requestdata),headers= headers)
     print(r)
