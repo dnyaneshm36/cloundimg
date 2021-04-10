@@ -6,7 +6,7 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name='index.html')),
     # path('profile/',
     #      TemplateView.as_view(template_name='profile.html')),
-     path("",ProfileView.as_view()),
+     path("",ProfileView.as_view(),name="home"),
      path('accounts/profile/',ProfileView.as_view() ),
      path('deauthtication/',DataDeletionView.as_view(), name="deauthtication"),
      path('privacypolicy/',Privacypolicy , name="privacypolicy"),
