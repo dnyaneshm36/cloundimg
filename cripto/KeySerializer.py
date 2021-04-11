@@ -14,3 +14,12 @@ class KeySerializer(serializers.ModelSerializer):
             'pku1',
             'pku2'
         ]
+
+class PublicKeySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Key
+        fields = [
+            'du',
+            'pku1',
+            'pku2',
+        ]
