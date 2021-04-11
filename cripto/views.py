@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from .KeySerializer import KeySerializer,PublicKeySerializer
 from cripto.models import Key
 
@@ -87,8 +88,10 @@ def upload_file(request):
         uploaded_img.file = form.cleaned_data['datafile'].file.read()
         uploaded_img.userid = request.user
         uploaded_img.save()
-        return redirect('/')
+        messages.error(request, ('Successfully added file .'))
+        return redirect('upload/')
     else:
+        messages.error(request, ('Fail to upload .'))
         form = UploaddataForm()
     return render(request, 'uploadfileword.html', {'form': form})
 
@@ -170,7 +173,6 @@ def keygen(request,*args,**kwargs):
 
 from .form import keysFormid
 from .models import Key
-from django.contrib import messages
 from django.forms import modelform_factory
 
 def Keydisplay(request, *args, **kwargs):
