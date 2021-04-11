@@ -204,7 +204,7 @@ def uploadpublickey(request,*args,**kwargs):
         return redirect("/")
     if form.is_valid():
         userkeys = Key.objects.filter(userid_id__exact=User)[0]
-        if userkeys.pku1 == None:
+        if userkeys.pku1 == None or userkeys.pku1 =='None':
             userkeys.pku1 = form.cleaned_data["pku1"]
             userkeys.pku2 = form.cleaned_data["pku2"]
             userkeys.save()
