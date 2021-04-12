@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework import generics,mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from django.contrib.auth.models import User
 # Create your views here.
 
 from rest_framework import generics, status
@@ -18,6 +18,26 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+
+class ReceiverAPIView(generics.RetrieveAPIView):
+    serializer_class = KeySerializer
+    permission_classes        =[]
+    authentication_classes    =[]
+    passed_email              =None
+
+    def get_object(self):
+        request             =self.request
+        passed_email        =request.GET.get('email',None) or self.passed_email
+
+        try:
+            user = get_object_or_404(User.objects.filter(email = passed_email))
+
+            qs = get_object_or_404(Key.objects.filter(userid = user))
+            print(qs)
+        except User.DoesNotExist:
+            qs = get_object_or_404(User.objects.filter(email = passed_email))
+        return qs
 
 class UpdatePublickeysapi(APIView):
      #crea te list 
@@ -197,6 +217,7 @@ def Keydisplay(request, *args, **kwargs):
 
 
 from .form import  KeyFormpublic,KeyForm
+from rest_framework.generics import get_object_or_404
     
 def uploadpublickey(request,*args,**kwargs):
     form = KeyFormpublic(request.POST )
