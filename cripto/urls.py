@@ -13,6 +13,7 @@ urlpatterns = [
      path('upload/', views.upload_file , name='upload'),
      path('search', views.trapdoorTest , name='search'),
      path('api/publickey',views.UpdatePublickeysapi.as_view(),name="apiupdatepublic"),
+     path('receiverinfo', views.ReceiverAPIView.as_view(),name="receiverinfo"),
 
      # path('play/', views.CreateAPIViewkeys.as_view() , name='play'),
      
