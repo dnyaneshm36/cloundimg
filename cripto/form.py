@@ -41,8 +41,8 @@ class KeyForm(forms.ModelForm):
         }
 
 class KeyFormpublic(forms.Form):
-    pku1        = forms.CharField(required=False)
-    pku2         = forms.CharField(required=False)
+    pku1            = forms.CharField(required=False)
+    pku2            = forms.CharField(required=False)
     # class Meta:
     #     model = Key
     #     fields = ['pku1','pku2']
