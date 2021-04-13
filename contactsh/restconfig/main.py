@@ -7,16 +7,16 @@ REST_FRAMEWORK = {
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
 
-    'DEFAULT_PERMISSION_CLASSES': [
-   'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#    'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+#     ],
     # 'DEFAULT_PAGINATION_CLASS': 'contactsh.restconfig.paginations.CLGAPIPagination'    ,
 
 
     
-         'DEFAULT_RENDERER_CLASSES': (
-         'rest_framework.renderers.JSONRenderer',
-     )
+    #      'DEFAULT_RENDERER_CLASSES': (
+    #      'rest_framework.renderers.JSONRenderer',
+    #  )
 }
 
 
