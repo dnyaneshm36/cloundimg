@@ -18,7 +18,46 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import HttpResponse
 
+def is_json(json_data):
+    try:
+        real_json = json.loads(json_data)
+        is_valid = True
+    except ValueError:
+        is_valid = False
+    return is_valid
+
+
+class SenderAPIView(generics.RetrieveAPIView):
+    serializer_class = KeySerializer
+    permission_classes        =[]
+    authentication_classes    =[]
+    def get_object(self):
+        request             =self.request
+        if not is_json(request.body):
+            data = {
+                "details_error": "send data in json format"
+            }
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")   ##return has not thing
+        bodydata                = json.loads(request.body)
+        pku1body                = bodydata['pku1']
+        pku2body                = bodydata['pku2']
+
+        try:
+
+            qs = get_object_or_404(Key.objects.filter(pku1 = pku1body))
+            qs = get_object_or_404(Key.objects.filter(pku2 = pku2body))
+            print(qs)
+        except User.DoesNotExist:
+            qs = get_object_or_404(Key.objects.filter(pku1 = pku1body))
+        if qs == None:
+            data ={ 
+                "details_error": "public keys are not matched. "
+            }
+            return HttpResponse(data, content_type="application/json") 
+        return qs
 
 class ReceiverAPIView(generics.RetrieveAPIView):
     serializer_class = KeySerializer
@@ -34,7 +73,7 @@ class ReceiverAPIView(generics.RetrieveAPIView):
             user = get_object_or_404(User.objects.filter(email = passed_email))
 
             qs = get_object_or_404(Key.objects.filter(userid = user))
-            print(qs)
+            # print(qs)
         except User.DoesNotExist:
             qs = get_object_or_404(User.objects.filter(email = passed_email))
         return qs
