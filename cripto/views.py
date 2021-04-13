@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 # Create your views here.
+from rest_framework.decorators import api_view
 
 from rest_framework import generics, status
 from django.http import Http404
@@ -29,35 +30,40 @@ def is_json(json_data):
     return is_valid
 
 
-class SenderAPIView(generics.RetrieveAPIView):
-    serializer_class = KeySerializer
-    permission_classes        =[]
-    authentication_classes    =[]
-    def get_object(self):
-        request             =self.request
-        if not is_json(request.body):
-            data = {
-                "details_error": "send data in json format"
-            }
-            data = json.dumps(data)
-            return HttpResponse(data, content_type="application/json")   ##return has not thing
-        bodydata                = json.loads(request.body)
-        pku1body                = bodydata['pku1']
-        pku2body                = bodydata['pku2']
+@api_view(['GET', 'POST'])
+def Senderinformation(request):
+    if not is_json(request.body):
+        data = { 
+                "details_error": "public keys are not matched. "
+            }  ##return has not thing
+        # serializer = KeySerializer(qs, many=True)
+        return Response(json.dumps(data))
+    bodydata                = json.loads(request.body)
+    pku1body                = bodydata['pku1']
+    pku2body                = bodydata['pku2']
+    try:
 
-        try:
-
-            qs = get_object_or_404(Key.objects.filter(pku1 = pku1body))
-            qs = get_object_or_404(Key.objects.filter(pku2 = pku2body))
-            print(qs)
-        except User.DoesNotExist:
-            qs = get_object_or_404(Key.objects.filter(pku1 = pku1body))
-        if qs == None:
-            data ={ 
+        qs = get_object_or_404(Key.objects.filter(pku1 = pku1body))
+        qs = get_object_or_404(Key.objects.filter(pku2 = pku2body))
+        print(qs)
+    except User.DoesNotExist:
+        qs = get_object_or_404(Key.objects.filter(pku1 = pku1body))
+    if qs == None:
+        data = { 
                 "details_error": "public keys are not matched. "
             }
-            return HttpResponse(data, content_type="application/json") 
-        return qs
+        return Response(data, content_type="application/json") 
+
+        # qs = Key.objects.all()
+    serializer = KeySerializer(qs)
+    return Response(serializer.data)
+
+
+    # def post(self,request , format = None):
+    #     qs = Status.objects.all()
+    #     serializer = StatusSerializer(qs, many=True)
+    #     return Response(serializer.data)
+  
 
 class ReceiverAPIView(generics.RetrieveAPIView):
     serializer_class = KeySerializer
@@ -90,7 +96,7 @@ class UpdatePublickeysapi(APIView):
 
 
 class KeysAPIView(mixins.CreateModelMixin,generics.ListAPIView): #crea te list 
-    permission_classes        =[AllowAny]
+    permission_classes        =[]
     authentication_classes    =[]
     serializer_class          =KeySerializer
 
@@ -107,8 +113,8 @@ class KeysAPIView(mixins.CreateModelMixin,generics.ListAPIView): #crea te list
 
 
 class KeysDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin , generics.RetrieveAPIView):
-    permission_classes        =[IsAuthenticated]
-    authentication_classes    =[BasicAuthentication]
+    permission_classes        =[]
+    authentication_classes    =[]
     serializer_class          =KeySerializer
     
     queryset                   =Key.objects.all()
