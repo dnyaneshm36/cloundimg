@@ -14,7 +14,7 @@ urlpatterns = [
      path('search', views.trapdoorTest , name='search'),
      path('api/publickey',views.UpdatePublickeysapi.as_view(),name="apiupdatepublic"),
      path('receiverinfo', views.ReceiverAPIView.as_view(),name="receiverinfo"),
-
+     path('senderinfo', views.SenderAPIView.as_view(),name="senderinfo"),
      # path('play/', views.CreateAPIViewkeys.as_view() , name='play'),
      
 ]
