@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from .KeySerializer import KeySerializer,PublicKeySerializer
-from cripto.models import Key
+from cripto.models import Key,Uploadfile
 
 import json
 
@@ -143,7 +143,10 @@ def finds_social_account(request):
         print("socoal acuunfot find")
         raise Http404("Login with google use service. ")
     return qs
-    
+
+def showResult(request):
+    results = Uploadfile.objects.all();
+    return render(request,'reasult.html',{'results':results})
 def upload_file(request):
     form = UploaddataForm(request.POST, request.FILES)
     # print(request.user)
@@ -154,7 +157,9 @@ def upload_file(request):
         uploaded_img.userid = request.user
         uploaded_img.save()
         messages.error(request, ('Successfully added file .'))
-        return redirect('upload/')
+        form = UploaddataForm()
+        return render(request, 'uploadfileword.html', {'form': form})
+
     else:
         messages.error(request, ('Fail to upload .'))
         form = UploaddataForm()
@@ -316,5 +321,79 @@ def checkcerrect(request,*args,**kwargs):
     form = KeyForm(instance=userkeys)
     return render(request, 'keys.html', {'form': form})
 
+from .form import SearchForm
 def trapdoorTest(request,*args,**kwargs):
-    return render(request, 'search.html')
+    form = SearchForm(request.POST )
+    receiver = request.user
+    if receiver is None:
+        messages.error(request, ('Login First.'))
+        return redirect("/")
+    if form.is_valid():
+        receiverkey = Key.objects.filter(userid_id__exact=receiver)[0]
+        word = form.cleaned_data["word"]
+        emailowner= form.cleaned_data["email"] 
+        SKr2= form.cleaned_data["SKr2"] 
+        SKs1= form.cleaned_data["SKs1"] 
+        SKs2= form.cleaned_data["SKs2"] 
+        sender = get_object_or_404(User.objects.filter(email = emailowner))
+
+        senderkey = get_object_or_404(Key.objects.filter(userid = sender))
+
+        PKs1 = senderkey.pku1
+        wordchecking = word
+        LOCALHOST = "http://localhost:8080/"
+        CYTOPTO_HEROKU = "https://criptography-dnyanesh.herokuapp.com/"
+
+        ENDPOINT = CYTOPTO_HEROKU
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        Requestdata={
+                "skr2": SKr2,
+                "pks1": PKs1
+                }
+
+        r = requests.get(ENDPOINT+"microservice/clpeks/trapdoor/"+wordchecking,data=json.dumps(Requestdata),headers= headers)
+        print(r)
+        Responddata = r.json()
+        print(Responddata)
+
+        T1 = Responddata["t1"]
+        T2byte = Responddata["t2byte"]
+        T3byte = Responddata["t3byte"]
+
+        
+        uploadfiles  = Uploadfile.objects.filter(userid = sender )
+
+        results = [ ]
+        for files in uploadfiles:
+
+            fromandother = json.loads((uploadfiles[0].cypherwords))
+            fromandother = json.loads(json.dumps(fromandother))
+            Requestdata={
+                "t1": T1,
+                "encypteWords": fromandother,
+                "t2byte": T2byte,
+                "t3byte": T3byte,
+                "sks1": SKs1,
+                "sks2": SKs2
+                }
+            print("00000000---------------000000000")
+            print(json.dumps(Requestdata))
+            print("00000000---------------000000000")
+            r = requests.get(ENDPOINT+"microservice/clpeks/test",data=json.dumps(Requestdata),headers= headers)
+            print(r)
+            Responddata = r.json()
+            print(Responddata) 
+            index = 0;
+            for Test in Responddata:
+                index += 1
+                if Test['test']:
+                    results.append(files)
+                    print("succefully find  at ",index)
+
+    else: 
+        return render(request, 'search.html')
+
+    return render(request, 'reasult.html',{'results':results})
