@@ -46,3 +46,11 @@ class KeyFormpublic(forms.Form):
     # class Meta:
     #     model = Key
     #     fields = ['pku1','pku2']
+
+
+class SearchForm(forms.Form):
+    word            = forms.CharField(required=True)
+    SKr2            = forms.CharField(required=True)
+    email           = forms.CharField(required=True)
+    SKs1            = forms.CharField(required=True)
+    SKs2            = forms.CharField(required=True)
