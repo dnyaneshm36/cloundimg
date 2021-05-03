@@ -53,4 +53,3 @@ class SearchForm(forms.Form):
     SKr2            = forms.CharField(required=True)
     email           = forms.CharField(required=True)
     SKs1            = forms.CharField(required=True)
-    SKs2            = forms.CharField(required=True)
