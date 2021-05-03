@@ -333,13 +333,16 @@ def trapdoorTest(request,*args,**kwargs):
         word = form.cleaned_data["word"]
         emailowner= form.cleaned_data["email"] 
         SKr2= form.cleaned_data["SKr2"] 
-        SKs1= form.cleaned_data["SKs1"] 
-        SKs2= form.cleaned_data["SKs2"] 
+        SKs1= form.cleaned_data["SKs1"]
+        Ss= form.cleaned_data["SKs1"] 
+        # SKs2= form.cleaned_data["SKs2"]
+         
         sender = get_object_or_404(User.objects.filter(email = emailowner))
 
         senderkey = get_object_or_404(Key.objects.filter(userid = sender))
 
         PKs1 = senderkey.pku1
+        Ds= senderkey.du
         wordchecking = word
         LOCALHOST = "http://localhost:8080/"
         CYTOPTO_HEROKU = "https://criptography-dnyanesh.herokuapp.com/"
@@ -348,6 +351,18 @@ def trapdoorTest(request,*args,**kwargs):
         headers = {
             "Content-Type": "application/json"
         }
+
+        Requestdata={
+        "su":Ss,
+        "du":Ds
+        }   
+        r = requests.get(ENDPOINT+"microservice/clpeks/gPriK",data=json.dumps(Requestdata),headers= headers)
+        print(r)
+        Responddata = r.json()
+        print(Responddata)
+
+        SKs1 = Responddata["sku1"]
+        SKs2 = Responddata["sku2"]
 
         Requestdata={
                 "skr2": SKr2,
