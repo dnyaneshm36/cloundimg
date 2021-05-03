@@ -353,7 +353,7 @@ def trapdoorTest(request,*args,**kwargs):
                 "skr2": SKr2,
                 "pks1": PKs1
                 }
-
+                
         r = requests.get(ENDPOINT+"microservice/clpeks/trapdoor/"+wordchecking,data=json.dumps(Requestdata),headers= headers)
         print(r)
         Responddata = r.json()
@@ -367,9 +367,10 @@ def trapdoorTest(request,*args,**kwargs):
         uploadfiles  = Uploadfile.objects.filter(userid = sender )
 
         results = [ ]
+        index_file = -1
         for files in uploadfiles:
-
-            fromandother = json.loads((uploadfiles[0].cypherwords))
+            index_file = index_file + 1
+            fromandother = json.loads((uploadfiles[index_file].cypherwords))
             fromandother = json.loads(json.dumps(fromandother))
             Requestdata={
                 "t1": T1,
